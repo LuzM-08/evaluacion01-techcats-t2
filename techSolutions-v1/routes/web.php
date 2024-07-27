@@ -12,7 +12,7 @@ Route::get('/all-projects', function () {
 });
 
 Route::get('/all-projects/{_id}', function ($_id) {
-    return "Este es el proyecto número {$_id}";
+    //return "Este es el proyecto número {$_id}";
 });
 
 Route::post('/add-project/{_id}', function ($_id) {
