@@ -20,7 +20,7 @@ class ProyectoModel extends Model
     {
 
     }
-
+    //setters
     public function setID($_n)
     {
         $this->id = $_n;
@@ -46,6 +46,7 @@ class ProyectoModel extends Model
     {
         $this->estado = $_n;
     }
+    //getters
     public function getId()
     {
         return $this->estado;
