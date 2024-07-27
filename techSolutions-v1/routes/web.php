@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UFController; 
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,5 +29,11 @@ Route::put('/update-project/{_id}', function ($_id, $_value) {
     return "Se ha actualizado el proyecto número {$_id} con el nuevo valor {$_value}.";
 });
 
+// Para la API de UF
+ 
+Route::get('/view-UF', [UFController::class,'getUF']);
 
-
+/*Route::get('/view-UF/{key}', function($_key){
+    Http::get("http://api.cmfchile.cl/api-sbifv3/recursos_api/uf?apikey={$_key}&formato=json");
+    return view('verUF');
+});*/
