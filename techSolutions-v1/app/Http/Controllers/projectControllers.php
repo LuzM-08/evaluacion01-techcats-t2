@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProyectoModel;
 
 class projectControllers extends Controller
 {
@@ -24,6 +25,10 @@ class projectControllers extends Controller
 
     public function delete($_id){
         // delete from tabla  where id = $_id
+    }
+
+    public function new($_nuevo){
+        $nuevo = new ProyectoModel();
     }
 
 }
