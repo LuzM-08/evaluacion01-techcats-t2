@@ -21,32 +21,33 @@
     </nav>
 
     <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">id</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Fecha de inicio</th>
-      <th scope="col">Estado</th>
-      <th scope="col">Responsable</th>
-      <th scope="col">Costo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Proyecto X</td>
-      <td>2024-03-01</td>
-      <td>Finalizado</td>
-      <td>Mozart</td>
-      <td>$5.000.000</td>
-    </tr>
-  </tbody>
-</table>
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Fecha de inicio</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Responsable</th>
+        <th scope="col">Costo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Proyecto X</td>
+        <td>2024-03-01</td>
+        <td>Finalizado</td>
+        <td>Mozart</td>
+        <td>$5.000.000</td>
+      </tr>
+    </tbody>
+  </table>
     
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+  </script>
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\addProject;
+use App\Http\Controllers\deleteProject;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\UFController;
 use App\Http\Controllers\updateProject;
@@ -12,20 +13,19 @@ Route::get('/', function () {
 
 Route::get('/all-projects', [ProjectController::class, 'index']);
 
-/* Route::get('/all-projects', function () {
-    //return "Estos son todos los proyectos :)";
-    return view('obtenerProyectoView');
-}); */
-
 Route::get('/all-projects/{_id}', [ProjectController::class, 'get']);
 
-Route::post('/add-projects/{_id}', [addProject::class, 'add']);
+Route::get('/add-project', [addProject::class, 'add']);
+Route::post('/add-project', [addProject::class, 'add']);
 
-Route::put('/update-project/{_id}', [updateProject::class, 'add']);
+Route::get('/update-project', [updateProject::class, 'add']);
+Route::put('/update-project', [updateProject::class, 'add']);
 
-Route::put('/update-project/{_id}', function ($_id, $_value) {
+Route::delete('/delete-project', [deleteProject::class, 'delete']);
+
+/* Route::put('/update-project/{_id}', function ($_id, $_value) {
     return "Se ha actualizado el proyecto número {$_id} con el nuevo valor {$_value}.";
-});
+}); */
 
 // Para la API de UF
 

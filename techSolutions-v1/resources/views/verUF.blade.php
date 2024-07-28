@@ -2,16 +2,15 @@
 <html>
 
 <head>
-    <title>UFs, yay!</title>
+    <title>Valor UF</title>
 </head>
 <body>
-<h2>Página que te dice el precio de la UF hoy :)</h2>
+<h2>Página que te dice el precio de la UF hoy</h2>
 <div class="container" id="UFcontent">
-<h3 id="valor"><?php echo $UFData?></h3>
-<h3 id="fecha"></h3>
+{{-- <h3 id="fecha"></h3> --}}
 </div>
 
-<!-- <script>
+<script>
 imprimeUF(<?php echo $UFData?>);
 
 function imprimeUF(_datosEndpoint) {
@@ -29,7 +28,7 @@ function imprimeUF(_datosEndpoint) {
 
     });
 }
-</script> -->
+</script>
 
 </body>
 

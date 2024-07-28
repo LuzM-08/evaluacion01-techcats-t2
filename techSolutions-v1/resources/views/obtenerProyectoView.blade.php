@@ -19,8 +19,6 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link active" aria-current="page" href="#">All projects</a>
-          <a class="nav-link" href="#">Features</a>
-          <a class="nav-link" href="#">Pricing</a>
         </div>
       </div>
     </div>
@@ -49,12 +47,22 @@
                 <td>{{ $project['estado'] }}</td>
                 <td>{{ $project['owner'] }}</td>
                 <td>{{ $project['costo'] }}</td>
-                <td><button type="button" class="btn btn-primary btn-sm">Actualizar</button></td>
-                <td><button type="button" class="btn btn-danger btn-sm">Eliminar</button></td>
+                <form action="{{ url('/update-project/') }}" method="PUT">
+                  @csrf
+                  <td><button type="submit" class="btn btn-primary btn-sm">Actualizar</button></td>
+                </form>
+                <form action="{{ url('/delete-project/') }}" method="DELETE">
+                  @csrf
+                  <td><button type="submit" class="btn btn-danger btn-sm">Eliminar</button></td>
+                </form>
             </tr>
             @endforeach
         </tbody>
     </table>  
+    <form action="{{ url('/add-project/') }}" method="POST">
+      @csrf
+      <td><button type="submit" class="btn btn-info btn-sm">Agregar</button></td>
+    </form>
   </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
