@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\addProject;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\addProject;
+use App\Http\Controllers\projectController;
 use App\Http\Controllers\UFController;
 use App\Http\Controllers\updateProject;
 
@@ -9,14 +10,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/all-projects', function () {
+Route::get('/all-projects', [ProjectController::class, 'index']);
+
+/* Route::get('/all-projects', function () {
     //return "Estos son todos los proyectos :)";
     return view('obtenerProyectoView');
-});
+}); */
 
-Route::get('/all-projects/{_id}', function ($_id) {
-    return "Este es el proyecto número {$_id}";
-});
+Route::get('/all-projects/{_id}', [ProjectController::class, 'get']);
 
 Route::post('/add-projects/{_id}', [addProject::class, 'add']);
 
