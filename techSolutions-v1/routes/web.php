@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\addProject;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UFController; 
-
+use App\Http\Controllers\UFController;
+use App\Http\Controllers\updateProject;
 
 Route::get('/', function () {
     return view('welcome');
