@@ -6,22 +6,6 @@ use App\Http\Controllers\projectControllers;
 
 Route::get('/all-projects', [projectControllers::class, 'index'])->name('all-projects');
 Route::get('/all-projects/{_id}', [projectControllers::class, 'get'])->name('get-project');
-Route::post('/add-project', [projectControllers::class, 'store'])->name('add-project');
-Route::put('/update-project/{_id}', [projectControllers::class, 'update'])->name('update-project');
-Route::delete('/delete-project/{_id}', [projectControllers::class, 'destroy'])->name('delete-project');
-
-/* Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/all-projects', function () {
-    //return "Estos son todos los proyectos :)";
-    return view('obtenerProyectoView');
-});
-
-Route::get('/all-projects/{_id}', function ($_id) {
-    //return "Este es el proyecto número {$_id}";
-});
 
 Route::post('/add-project/{_id}', function ($_id) {
     return "Se ha añadido el proyecto número {$_id}";
@@ -33,7 +17,18 @@ Route::delete('/delete-project/{_id}', function ($_id) {
 
 Route::put('/update-project/{_id}', function ($_id, $_value) {
     return "Se ha actualizado el proyecto número {$_id} con el nuevo valor {$_value}.";
-}); */
+});
+
+/* Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/all-projects/{_id}', function ($_id) {
+    //return "Este es el proyecto número {$_id}";
+}); /*
+
+
+
 
 // Para la API de UF
  
