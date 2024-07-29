@@ -21,6 +21,7 @@ Route::post('/add-project', [addProject::class, 'add']);
 Route::get('/update-project', [updateProject::class, 'add']);
 Route::put('/update-project', [updateProject::class, 'add']);
 
+Route::get('/delete-project', [deleteProject::class, 'delete']);
 Route::delete('/delete-project', [deleteProject::class, 'delete']);
 
 /* Route::put('/update-project/{_id}', function ($_id, $_value) {

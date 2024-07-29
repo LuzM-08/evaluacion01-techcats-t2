@@ -1,11 +1,12 @@
 @extends('layouts.index')
 
 @section('title')
-    Actualizar proyecto
+    Eliminar proyectos
 @endsection
 
 @section('content')
     <div>
-        <h1>Proyecto actualizado exitosamente</h1>
+        <h1>Proyecto eliminado exitosamente</h1>
+
     </div>
 @endsection
