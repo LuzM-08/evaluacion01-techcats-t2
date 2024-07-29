@@ -10,7 +10,8 @@
         {{-- <h3 id="fecha"></h3> --}}
     </div>
 
-    <script>
+<x-u-fcomponent></x-u-fcomponent>
+<!--  <script>
         imprimeUF(<?php echo $UFData; ?>);
 
         function imprimeUF(_datosEndpoint) {
@@ -27,6 +28,5 @@
                 }
             });
         }
-    </script>
-
+    </script> -->
 @endsection

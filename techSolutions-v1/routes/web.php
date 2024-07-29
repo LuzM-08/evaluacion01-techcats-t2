@@ -30,6 +30,5 @@ Route::get('/view-UF', [UFController::class, 'getUF']);
     return "Se ha actualizado el proyecto número {$_id} con el nuevo valor {$_value}.";
 }); */
 
-// Para la API de UF
 
 
