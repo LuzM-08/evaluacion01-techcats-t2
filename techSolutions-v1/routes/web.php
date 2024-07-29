@@ -24,11 +24,12 @@ Route::put('/update-project', [updateProject::class, 'add']);
 Route::get('/delete-project', [deleteProject::class, 'delete']);
 Route::delete('/delete-project', [deleteProject::class, 'delete']);
 
+Route::get('/view-UF', [UFController::class, 'getUF']);
+
 /* Route::put('/update-project/{_id}', function ($_id, $_value) {
     return "Se ha actualizado el proyecto número {$_id} con el nuevo valor {$_value}.";
 }); */
 
 // Para la API de UF
 
-Route::get('/view-UF', [UFController::class, 'getUF']);
 
