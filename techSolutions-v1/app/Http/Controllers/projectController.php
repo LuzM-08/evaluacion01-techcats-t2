@@ -31,3 +31,33 @@ class projectController extends Controller
     }
 
 }
+
+class addProject extends Controller
+{
+    public function add(){
+        return view('agregarProyectoView');
+    }
+}
+
+class deleteProject extends Controller
+{
+    public function delete() {
+        return view('eliminarProyectoView');
+    }
+}
+
+class updateProject extends Controller
+{
+    public function add()
+    {
+        return view('actualizarProyectoView');
+    }
+}
+
+class viewUF extends Controller
+{
+    public function add()
+    {
+        return view('u-fcomponent.blade.php');
+    }
+}
