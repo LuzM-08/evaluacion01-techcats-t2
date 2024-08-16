@@ -6,8 +6,12 @@ use App\Http\Controllers\UFController;
 use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
-    return view('landing.index');
+    return view('login');
+    /* return view('dashboard'); */
+});
+    /* return view('landing.index');
 })->name('raiz');
+ */
 
 Route::get('/all-projects', [ProjectController::class, 'index']);
 
