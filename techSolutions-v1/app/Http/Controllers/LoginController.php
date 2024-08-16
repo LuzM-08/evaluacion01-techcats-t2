@@ -13,7 +13,7 @@ class LoginController extends Controller
         if(Auth::check()){
             return redirect()->route('backoffice.dashboard');
         }
-        return view('usuario.login'); 
+        return view('login'); 
     }
 
     public function formularioUsuario(){

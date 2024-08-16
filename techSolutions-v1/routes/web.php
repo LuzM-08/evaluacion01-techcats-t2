@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\UFController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('login');
-    /* return view('dashboard'); */
 });
     /* return view('landing.index');
 })->name('raiz');
