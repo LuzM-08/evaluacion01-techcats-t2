@@ -4,7 +4,7 @@
 
 @section('page-title', 'Dashboard')
 
-@section('nombreUsuario', '')
+@section('nombreUsuario', $nombreUsuario)
 
 @section('css')
 <!-- Custom css -->
@@ -18,20 +18,21 @@
         <div class="col-lg-3">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    Encabezado
+                    Datos del usuario
                 </div>
                 <div class="card-body">
-                    Cuerpo de la tarjeta
+                    <p>Nombre: {{$user->nombre}}</p>
+                    <p>Email: {{$user->email}}</p>
                 </div>
                 <div class="card-footer">
-                    Pie de la tarjetas
+                    Pie de la tarjeta
                 </div>
             </div>
         </div>
     </div>
     <form action="{{ Route('usuario.logout') }}" method="POST">
         @csrf
-        <button type="submit">Cerrar sesión</button>
+        <button class="btn btn-warning" type="submit">Cerrar sesión</button>
     </form>
     
 </div>

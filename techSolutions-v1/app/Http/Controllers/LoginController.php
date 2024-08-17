@@ -97,6 +97,7 @@ class LoginController extends Controller
             return back()->withErrors(['message' => 'Error: ' . $e->getMessage()]);
         }
     }
+
     public function logout(Request $_request)
     {
         Auth::logout();
