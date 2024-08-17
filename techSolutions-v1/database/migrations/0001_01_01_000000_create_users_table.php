@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('email')->unique();
-            $table->string('contraseña');
-            $table->boolean('activo');
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->boolean('activo')->default(false);
         });
 
         /* Schema::create('projects', function (Blueprint $table) {

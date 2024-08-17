@@ -22,7 +22,7 @@
         <input type="text" name="email" placeholder="Ingrese su email">
         <input type="password" name="password" placeholder="Ingrese su contraseña">
         <input type="password" name="rePassword" placeholder="Ingrese nuevamente su contraseña">
-        <input type="text" name="dayCode" placeholder="Ingrese código del día">
+        <input type="password" name="dayCode" placeholder="Ingrese código del día">
         <button type="submit">Registrar</button>
     </form>
     <hr>
