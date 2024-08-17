@@ -68,7 +68,7 @@ class LoginController extends Controller
             'password' =>'required',
             'rePassword' => 'required',
             'dayCode' => 'required',
-        ]);
+        ],$mensajes);
 
         $datos = $_request->only('nombre', 'email','password','rePassword','dayCode'); 
         if($datos['password'] != $datos['rePassword']){

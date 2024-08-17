@@ -8,7 +8,16 @@
 </head>
 <body>
     <h1>Ingrese sus datos</h1>
-    <form action="" method="POST">
+    <!-- Errores -->
+    @if ($errors->any())
+    <ul>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+    @endif
+    <form action="{{ Route('usuario.registrar') }}" method="POST">
+        @csrf
         <input type="text" name="nombre" placeholder="Ingrese su nombre">
         <input type="text" name="email" placeholder="Ingrese su email">
         <input type="password" name="password" placeholder="Ingrese su contraseña">

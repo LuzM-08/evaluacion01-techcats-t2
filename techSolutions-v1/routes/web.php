@@ -33,7 +33,7 @@ Route::get('/login', [LoginController::class, 'formularioLogin'])->name('usuario
 Route::post('/login', [LoginController::class, 'login'])->name('usuario.validar');
 
 Route::get('/users/register', [LoginController::class, 'formularioUsuario'])->name('usuario.registrar');
-Route::post('/register', [LoginController::class, 'registrar'])->name('usuario.registrar');
+Route::post('/users/register', [LoginController::class, 'registrar'])->name('usuario.registrar');
 
 Route::get('/backoffice', function(){
     $user = Auth::user();
