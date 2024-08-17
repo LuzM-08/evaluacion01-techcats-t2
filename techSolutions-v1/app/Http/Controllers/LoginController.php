@@ -5,6 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 
 class LoginController extends Controller
@@ -13,7 +14,7 @@ class LoginController extends Controller
         if(Auth::check()){
             return redirect()->route('backoffice.dashboard');
         }
-        return view('login'); 
+        return view('usuario.login'); 
     }
 
     public function formularioUsuario(){
@@ -25,7 +26,7 @@ class LoginController extends Controller
 
     public function login(Request $_request){
         $mensajes = [
-            'email.required' => 'El correo es olbigatorio.',
+            'email.required' => 'El correo es obligatorio.',
             'email.email' => 'El correo no tiene un formato valido',
             'password.required' => 'La contraseña es obligatoria'
         ];

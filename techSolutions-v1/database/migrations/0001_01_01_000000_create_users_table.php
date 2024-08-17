@@ -21,17 +21,17 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('projects', function (Blueprint $table) {
-            $table->id();
+        /* Schema::create('projects', function (Blueprint $table) {
+            $table->id()->primary();
             $table->string('nombre')->unique();
             $table->string('fechaInicio');
             $table->string('estado');
             $table->string('responsable');
             $table->string('monton');
-            $table->id('createdBy');
+            /* $table->id('createdBy');
             $table->rememberToken();
             $table->timestamps();
-        });
+        }); */
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

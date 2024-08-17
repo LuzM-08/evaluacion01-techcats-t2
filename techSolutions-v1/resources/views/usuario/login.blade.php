@@ -29,8 +29,16 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Ingrese sus credenciales</p>
-
-                <form action="../../index3.html" method="post">
+                <!-- Errores -->
+                @if ($errors->any())
+                <ul>
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                @endif
+                <form action="{{ Route('usuario.validar') }}" method="POST">
+                    @csrf
                     <div class="input-group mb-3">
                         <input name="email" type="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
@@ -68,7 +76,7 @@
                     <a href="#">Olvidé mi contraseña</a>
                 </p>
                 <p class="mb-0">
-                    <a href="#" class="text-center">Registrar una cuenta nueva</a>
+                    <a href="{{Route('usuario.registrar')}}" class="text-center">Registrar una cuenta nueva</a>
                 </p>
             </div>
             <!-- /.login-card-body -->
