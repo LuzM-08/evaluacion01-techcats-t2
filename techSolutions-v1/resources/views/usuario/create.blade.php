@@ -20,16 +20,16 @@
 </head>
 
 <body>
-    <!-- Errores -->
-    @if ($errors->any())
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-    @endif
     <form action="{{ Route('usuario.registrar') }}" method="POST">
         <div class="container text-center">
+            <!-- Errores -->
+            @if ($errors->any())
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
             <h1 class="justify-content-center mt-3 mb-3">Ingrese sus datos</h1>
             <div class="row justify-content-center">
                 @csrf
