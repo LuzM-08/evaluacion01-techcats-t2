@@ -4,10 +4,13 @@
 
 @section('page-title', 'Dashboard')
 
+@section('nombreUsuario', '')
+
 @section('css')
 <!-- Custom css -->
     
 @endsection
+
 
 @section('content')
 <div class="container-fluid">
@@ -26,6 +29,11 @@
             </div>
         </div>
     </div>
+    <form action="{{ Route('usuario.logout') }}" method="POST">
+        @csrf
+        <button type="submit">Cerrar sesión</button>
+    </form>
+    
 </div>
     
 @endsection

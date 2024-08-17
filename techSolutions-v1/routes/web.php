@@ -38,6 +38,8 @@ Route::post('/users/register', [LoginController::class, 'registrar'])->name('usu
 Route::get('/backoffice', function(){
     $user = Auth::user();
     if ($user == NULL) {
-        return redirect()-> route('login')->withErrors(['message' => 'No existe una sesion activa']);
+        return redirect()-> route('usuario.login')->withErrors(['message' => 'No existe una sesion activa']);
     } return view ('backoffice.dashboard', ['user' => $user]);
 }) ->name('backoffice.dashboard'); 
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('usuario.logout');
