@@ -16,7 +16,7 @@
               <th scope="col">Estado</th>
               <th scope="col">Owner</th>
               <th scope="col">Costo</th>
-              <th scope="col">Acciones</th>
+              <th scope="col">Creado por</th>
           </tr>
       </thead>
       <tbody>
@@ -28,6 +28,7 @@
                   <td>{{ $project['estado'] }}</td>
                   <td>{{ $project['owner'] }}</td>
                   <td>{{ $project['costo'] }}</td>
+                  <td>{{ $project['createdBy'] }}</td>
                   <form action="{{ url('/update-project/') }}" method="PUT">
                       @csrf
                       <td><button type="submit" class="btn btn-primary btn-sm">Actualizar</button></td>
