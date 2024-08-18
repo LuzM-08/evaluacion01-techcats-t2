@@ -4,10 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\UFController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    return view('landing.index');
+    return view('usuario.login');
+});
+    /* return view('landing.index');
 })->name('raiz');
+ */
 
 Route::get('/all-projects', [ProjectController::class, 'index']);
 
@@ -24,11 +28,12 @@ Route::delete('/delete-project', [ProjectController::class, 'deleteProject']);
 
 Route::get('/view-UF', [ProjectController::class, 'viewUF']);
 
+/* Rutas evaluación 2 */
 Route::get('/login', [LoginController::class, 'formularioLogin'])->name('usuario.login');
-Route::get('/login', [LoginController::class, 'login'])->name('usuario.validar');
+Route::post('/login', [LoginController::class, 'login'])->name('usuario.validar');
 
-Route::get('/register', [LoginController::class, 'formularioUsuario'])->name('usuario.registrar');
-Route::get('/register', [LoginController::class, 'registrar'])->name('usuario.registrar');
+Route::get('/users/register', [LoginController::class, 'formularioUsuario'])->name('usuario.registrar');
+Route::post('/users/register', [LoginController::class, 'registrar'])->name('usuario.registrar');
 
 Route::get('/backoffice', function(){
     $user = Auth::user();
@@ -36,3 +41,5 @@ Route::get('/backoffice', function(){
         return redirect()-> route('usuario.login')->withErrors(['message' => 'No existe una sesion activa']);
     } return view ('backoffice.dashboard', ['user' => $user]);
 }) ->name('backoffice.dashboard'); 
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('usuario.logout');
