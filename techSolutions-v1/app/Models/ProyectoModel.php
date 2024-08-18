@@ -15,11 +15,18 @@ class ProyectoModel extends Model
     private $estado;
     private $responsable;
     private $monto;
+    private $createdBy;
 
     public function _construct()
     {
 
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'createdBy');
+    }
+
     //setters
     public function setID($_n)
     {
