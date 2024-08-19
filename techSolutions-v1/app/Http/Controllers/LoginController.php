@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class LoginController extends Controller
@@ -42,7 +43,7 @@ class LoginController extends Controller
 
         $credenciales = $_request->only('email', 'password');
 
-        if (Auth::attempt($credenciales)) {
+        /* if (Auth::attempt($credenciales)) {
 
             $user = Auth::user();
             if (!$user->activo) {
@@ -53,7 +54,13 @@ class LoginController extends Controller
             $_request->session()->regenerate();
             return redirect()->route('backoffice.dashboard');
         }
-        return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']);
+        return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']); */
+
+        if (!$token = JWTAuth::attempt($credenciales)) {
+            return redirect()->back()->withErrors(['error' => 'Unauthorized']);
+        }
+        $user = Auth::user();
+        return redirect()->route('backoffice.dashboard')->with('success', 'Login successful');
     }
 
     public function registrar(Request $_request)

@@ -42,4 +42,10 @@ Route::get('/backoffice', function(){
     } return view ('backoffice.dashboard', ['user' => $user]);
 }) ->name('backoffice.dashboard'); 
 
+Route::group(['middleware' => ['jwt.auth']], function() {
+    /* Route::get('/login', 'UserController@getUserDetails'); */
+    Route::get('/backoffice', 'DashboardController@index')->name('backoffice.dashboard');
+});
+
+
 Route::post('/logout', [LoginController::class, 'logout'])->name('usuario.logout');
