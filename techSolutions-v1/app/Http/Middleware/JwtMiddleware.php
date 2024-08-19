@@ -27,3 +27,6 @@ class JwtMiddleware
         return $next($request);
     }
 }
+
+
+/*Modified gitignore*/
