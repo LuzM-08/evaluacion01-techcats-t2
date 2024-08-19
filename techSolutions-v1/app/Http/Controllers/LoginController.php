@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Exception;
-
+use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends Controller
 {
@@ -42,7 +43,7 @@ class LoginController extends Controller
 
         $credenciales = $_request->only('email', 'password');
 
-        if (Auth::attempt($credenciales)) {
+        /* if (Auth::attempt($credenciales)) {
 
             $user = Auth::user();
             if (!$user->activo) {
@@ -53,7 +54,14 @@ class LoginController extends Controller
             $_request->session()->regenerate();
             return redirect()->route('backoffice.dashboard');
         }
-        return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']);
+        return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']); */
+
+        if (!$token = JWTAuth::attempt($credenciales)) {
+            return response()->json(['error' => 'Credenciales invalidas'], 401);
+        }
+        session(['jwt_token' => $token]);
+        Log::info('JWT Token Generated: ' . $token); /*Comprobar que se genera un JWT al iniciar sesión. Revisar logs en storage/logs/laravel.log*/
+        return redirect()->route('backoffice.dashboard')->with('token', $token);
     }
 
     public function registrar(Request $_request)
