@@ -57,10 +57,10 @@ class LoginController extends Controller
         return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']); */
 
         if (!$token = JWTAuth::attempt($credenciales)) {
-            return redirect()->back()->withErrors(['error' => 'Unauthorized']);
+            return response()->json(['error' => 'Credenciales invalidas'], 401);
         }
-        $user = Auth::user();
-        return redirect()->route('backoffice.dashboard')->with('success', 'Login successful');
+        session(['jwt_token' => $token]);
+        return redirect()->route('backoffice.dashboard')->with('token', $token);
     }
 
     public function registrar(Request $_request)
