@@ -50,9 +50,6 @@ class LoginController extends Controller
                 Auth::logout();
                 return redirect()->route('usuario.login')->withError(['email' => 'El usuario se encuentra desactivado']);
             }
-
-            $_request->session()->regenerate();
-            return redirect()->route('backoffice.dashboard');
         }
 
         if (!$token = JWTAuth::attempt($credenciales)) {
