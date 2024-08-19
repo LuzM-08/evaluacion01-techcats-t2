@@ -44,7 +44,7 @@ class LoginController extends Controller
         $credenciales = $_request->only('email', 'password');
 
         if (Auth::attempt($credenciales)) {
-
+            /*Added is user not active auth*/
             $user = Auth::user();
             if (!$user->activo) {
                 Auth::logout();
