@@ -43,7 +43,7 @@ class LoginController extends Controller
 
         $credenciales = $_request->only('email', 'password');
 
-        /* if (Auth::attempt($credenciales)) {
+        if (Auth::attempt($credenciales)) {
 
             $user = Auth::user();
             if (!$user->activo) {
@@ -54,7 +54,6 @@ class LoginController extends Controller
             $_request->session()->regenerate();
             return redirect()->route('backoffice.dashboard');
         }
-        return redirect()->back()->withErrors(['email' => 'El usuario o contraseña son incorrectos.']); */
 
         if (!$token = JWTAuth::attempt($credenciales)) {
             return response()->json(['error' => 'Credenciales invalidas'], 401);
