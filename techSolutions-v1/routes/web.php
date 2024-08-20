@@ -50,6 +50,11 @@ Route::get('/backoffice', function () {
         return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa o el token es inválido.']);
     }
 
+    $user = Auth::user();
+    if ($user == NULL) {
+        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesion activa']);
+    }
+
     try {
         $user = JWTAuth::setToken($token)->authenticate();
         return view('backoffice.dashboard', ['user' => $user]);
