@@ -5,33 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RolModel extends Model
+class PrivilegeModel extends Model
 {
     use HasFactory;
 
     // Definir la tabla asociada si el nombre de la tabla no sigue la convención de Laravel
-    protected $table = 'roles';
+    protected $table = 'privilegios';
 
+    // Campos que pueden ser asignados en masa
     protected $fillable = [
         'nombre',
+        'icono',
+        'color',
         'user_id_create',
         'user_id_last_update',
-        'activo',
+        'activo'
     ];
 
     // Relaciones con otros modelos
 
-    // Relación con el modelo Mantenedor
-    public function mantenedor()
-    {
-        return $this->belongsTo(UserProfileModel::class, 'mantenedor_id');
-    }
-
-    // Relación con el modelo Mantenedor
-    public function privilegio()
-    {
-        return $this->belongsTo(PrivilegeModel::class, 'privilegio_id');
-    }
     // Relación con el modelo User
     public function user()
     {
