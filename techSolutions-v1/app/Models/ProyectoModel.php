@@ -25,6 +25,6 @@ class ProyectoModel extends Model
     }
 
     public function qrs(){
-        return $this->hasMany(QR::class);
+        return $this->hasMany(QrModel::class);
     }
 }
