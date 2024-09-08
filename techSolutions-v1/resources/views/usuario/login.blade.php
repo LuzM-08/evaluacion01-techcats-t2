@@ -102,7 +102,7 @@
             <!-- /.login-card-body -->
         </div>
         <div class="text-center mt-4">
-            <b>Centro de Modelamiento Matemático</b><br>Diseño y Programación<br>&copy; 2023 ~ 2024
+            <b>Desarrollo Web I</b><br>IPSS<br>&copy; 2023 ~ 2024
         </div>
     </div>
     <!-- /.login-box -->
