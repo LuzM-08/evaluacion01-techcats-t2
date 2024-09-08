@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mantenedor;
-use App\Models\PrivilegeModel;
 use App\Models\Privilegio;
 use App\Models\Rol;
 use App\Models\RolMantenedorPrivilegio;
-use App\Models\RolModel;
-use App\Models\RolUserInfoPrivilegio;
 use App\Models\User;
 use App\Models\UserProfileModel;
 use Exception;
@@ -81,15 +78,15 @@ class PrivilegeController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $datos = PrivilegeModel::all();
+        $datos = Privilegio::all();
 
         foreach ($datos as $registro) {
             $registro->user_id_create_nombre = User::findOrFail($registro->user_id_create)->nombre;
             $registro->user_id_last_update_nombre = User::findOrFail($registro->user_id_last_update)->nombre;
         }
-        $user->rol_nombre = RolModel::findOrFail($user->rol_id)->nombre;
+        $user->rol_nombre = Rol::findOrFail($user->rol_id)->nombre;
         //privilegios del Rol en Mantenedor y sus Privilegios
-        $allRolMantenedorPrivilegio = RolUserInfoPrivilegio::all()->where('rol_id', $user->rol_id);
+        $allRolMantenedorPrivilegio = RolMantenedorPrivilegio::all()->where('rol_id', $user->rol_id);
         $rolMP = [];
         foreach ($allRolMantenedorPrivilegio as $rmp) {
             $rolMP[$rmp->mantenedor_id][$rmp->privilegio_id] = $rmp->activo;
@@ -102,7 +99,7 @@ class PrivilegeController extends Controller
             'campos' => $this->properties['fields'],
             'mantenedor_id' => 4,
             'mantenedores' => UserProfileModel::all(),
-            'privilegios' => PrivilegeModel::all(),
+            'privilegios' => Privilegio::all(),
             'rolMP' => $rolMP,
         ]);
     }
@@ -114,9 +111,9 @@ class PrivilegeController extends Controller
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
         if ($_id === null) {
-            $datos = PrivilegeModel::all();
+            $datos = Privilegio::all();
         } else {
-            $datos = PrivilegeModel::findOrFail($_id);
+            $datos = Privilegio::findOrFail($_id);
         }
         return response()->json([
             'data' => $datos
@@ -129,7 +126,7 @@ class PrivilegeController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = PrivilegeModel::findOrFail($_id);
+        $registro = Privilegio::findOrFail($_id);
         $registro->user_id_last_update = $user->id;
         $registro->activo = true;
         try {
@@ -146,7 +143,7 @@ class PrivilegeController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = PrivilegeModel::findOrFail($_id);
+        $registro = Privilegio::findOrFail($_id);
         $registro->user_id_last_update = $user->id;
         $registro->activo = false;
         try {
@@ -163,7 +160,7 @@ class PrivilegeController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = PrivilegeModel::findOrFail($_id);
+        $registro = Privilegio::findOrFail($_id);
         try {
             $registro->delete();
             return redirect()->route('privilegios.index')->with('success', "[id: $registro->id] [Registro: $registro->nombre] eliminado con éxito.");
@@ -187,7 +184,7 @@ class PrivilegeController extends Controller
 
         try {
             // Insertar el registro en la base de datos
-            PrivilegeModel::create([
+            Privilegio::create([
                 'nombre' => $datos['privilegio_nombre'],
                 'user_id_create' => $user->id,
                 'user_id_last_update' => $user->id
@@ -209,7 +206,7 @@ class PrivilegeController extends Controller
         ], $this->mensajes);
 
         //busca el registro
-        $registro = PrivilegeModel::findOrFail($_id);
+        $registro = Privilegio::findOrFail($_id);
 
         $datos = $_request->only('privilegio_nombre', 'privilegio_icono', 'privilegio_color');
 

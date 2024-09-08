@@ -11,9 +11,9 @@ abstract class Controller
         'password.required' => 'La contraseña es obligatoria.',
         //crear usuario por formulario login
         'nombre.required' => 'El nombre es obligatorio.',
-        /* 'email.required' => 'El email es obligatorio.', */
+        'email.required' => 'El email es obligatorio.',
         'email.unique' => 'El email ya está registrado.',
-        /* 'password.required' => 'La contraseña es obligatoria.', */
+        'password.required' => 'La contraseña es obligatoria.',
         'rePassword.required' => 'Repetir contraseña es obligatoria.',
         'dayCode.required' => 'El código del día es obligatorio.',
         'terms.required' => 'Debe aceptar los términos y condiciones.',

@@ -6,9 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -17,6 +16,8 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
+    //paso 1: php artisan make:migration modify_users_table
+
     protected $fillable = [
         'nombre',
         'email',
@@ -25,8 +26,10 @@ class User extends Authenticatable implements JWTSubject
         'activo',
     ];
 
-    public function rol() {
-        return $this->belongsTo(RolModel::class, 'rol_id');
+    // Relación con el modelo User
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'rol_id');
     }
 
     /**
@@ -51,15 +54,5 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'hashed',
             'activo' => 'boolean'
         ];
-    }
-
-    public function getJWTIdentifier()
-    {
-        return $this->getKey(); // The unique identifier for the user, usually the primary key
-    }
-
-    public function getJWTCustomClaims()
-    {
-        return []; // Any custom claims you want to add to the JWT payload
     }
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -15,23 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->binary('imagen')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->integer('rol_id')->nullable();
             $table->boolean('activo')->default(false);
         });
-
-        /* Schema::create('projects', function (Blueprint $table) {
-            $table->id()->primary();
-            $table->string('nombre')->unique();
-            $table->string('fechaInicio');
-            $table->string('estado');
-            $table->string('responsable');
-            $table->string('monton');
-            /* $table->id('createdBy');
-            $table->rememberToken();
-            $table->timestamps();
-        }); */
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
@@ -47,6 +40,18 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        // Agregar datos a la tabla recién creada
+        DB::table('users')->insert([
+            [
+                'nombre' => 'Sebastián Cabezas Ríos',
+                'email' => 'scabezas@ciisa.cl',
+                'password' => Hash::make('hola'),
+                'activo' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+        ]);
     }
 
     /**

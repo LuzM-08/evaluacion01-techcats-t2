@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\UserProfileModel;
-use App\Models\PrivilegeModel;
-use App\Models\RolModel;
-use App\Models\RolUserInfoPrivilegio;
+use App\Models\Mantenedor;
+use App\Models\Privilegio;
+use App\Models\Rol;
+use App\Models\RolMantenedorPrivilegio;
 use App\Models\User;
+use App\Models\UserProfileModel;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -246,13 +246,13 @@ class UserController extends Controller
         $datos = User::all();
 
         foreach ($datos as $registro) {
-            $registro->rol_nombre = RolModel::findOrFail($registro->rol_id)->nombre;
+            $registro->rol_nombre = Rol::findOrFail($registro->rol_id)->nombre;
         }
 
         //prepara la lista de Roles para ser asignada a la propiedad
         $posicionRoles = 6;
         $listaRoles = [];
-        foreach (RolModel::all() as $r) {
+        foreach (Rol::all() as $r) {
             if ($r->activo) {
                 array_push($listaRoles, [
                     'id' => $r->id,
@@ -261,9 +261,9 @@ class UserController extends Controller
             }
         }
         $this->properties['fields'][$posicionRoles]['options'] = $listaRoles;
-        $user->rol_nombre = RolModel::findOrFail($user->rol_id)->nombre;
+        $user->rol_nombre = Rol::findOrFail($user->rol_id)->nombre;
         //privilegios del Rol en Mantenedor y sus Privilegios
-        $allRolMantenedorPrivilegio = RolUserInfoPrivilegio::all()->where('rol_id', $user->rol_id);
+        $allRolMantenedorPrivilegio = RolMantenedorPrivilegio::all()->where('rol_id', $user->rol_id);
         $rolMP = [];
         foreach ($allRolMantenedorPrivilegio as $rmp) {
             $rolMP[$rmp->mantenedor_id][$rmp->privilegio_id] = $rmp->activo;
@@ -277,7 +277,7 @@ class UserController extends Controller
             'campos' => $this->properties['fields'],
             'mantenedor_id' => 1,
             'mantenedores' => UserProfileModel::all(),
-            'privilegios' => PrivilegeModel::all(),
+            'privilegios' => Privilegio::all(),
             'rolMP' => $rolMP,
         ]);
     }
@@ -301,7 +301,7 @@ class UserController extends Controller
                 $datos->imagen = base64_encode($datos->imagen);
             }
         }
-        $datos->rol_id_nombre = RolModel::find($datos->rol_id)->nombre;
+        $datos->rol_id_nombre = Rol::find($datos->rol_id)->nombre;
         return response()->json([
             'data' => $datos
         ]);

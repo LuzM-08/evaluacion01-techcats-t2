@@ -9,7 +9,7 @@ class UserProfileModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'userProfile';
+    protected $table = 'mantenedores';
 
     protected $fillable = [
         'nombre',
