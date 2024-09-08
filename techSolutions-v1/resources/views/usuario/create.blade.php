@@ -56,9 +56,17 @@
                     <input type="password" class="form-control" name="dayCode" placeholder="Ingrese código del día">
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mb-3">Registrar</button>
-            <p>Si usted ya tiene una cuenta, entonces <a href="/login">inicie sesión</a></p>
-        </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="agreeTerms" name="terms">
+                    <label class="form-check-label" for="agreeTerms">
+                    Revise y acepte los <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank">términos y condiciones</a>
+                    </label>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary mb-3">Registrar</button>
+                <p>Si usted ya tiene una cuenta, entonces <a href="/login">inicie sesión</a></p>
+            </div>
     </form>
     </div>
     </div>
