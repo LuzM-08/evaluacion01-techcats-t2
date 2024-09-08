@@ -1,6 +1,6 @@
 @extends('backoffice.layouts.app')
 
-@section('title', 'Proyecto QR | Dashboard')
+@section('title', 'Proyecto IPSS | Dashboard')
 
 @section('page-title', 'Dashboard | PROYECTOS')
 

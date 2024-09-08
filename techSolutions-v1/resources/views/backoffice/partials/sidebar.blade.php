@@ -6,7 +6,7 @@
             style="opacity: .8; margin-top: 0px; margin-left: 16px; font-size: 30px">
             <i class="fas fa-qrcode"></i>
         </span>
-        <span class="brand-text font-weight-light">Proyecto QR</span>
+        <span class="brand-text font-weight-light">Dashboard IPSS</span>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">

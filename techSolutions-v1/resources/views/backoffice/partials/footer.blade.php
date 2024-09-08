@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-        <b>Version</b> 2.0 | <b>Diseño y Programación</b>
+        <b>Desarrollo Web I</b> | <b>IPSS</b>
     </div>
-    <strong>Copyright &copy; 2023 ~ 2024 <a href="https://www.cmmedu.cl" target="_blank">CMMEdu</a> | </strong> Universidad de Chile.
+    <strong>Copyright &copy; 2023 ~ 2024 <a href="https://ipss.cl/" target="_blank">IPSS</a> | </strong>
 </footer>
