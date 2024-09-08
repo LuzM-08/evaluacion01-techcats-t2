@@ -8,7 +8,6 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Models\Privilegio;
 use App\Models\Proyecto;
-use App\Models\QrModel;
 use App\Models\Rol;
 use App\Models\RolMantenedorPrivilegio;
 use Illuminate\Support\Facades\Auth;
@@ -59,8 +58,6 @@ Route::get('/backoffice', function () {
         'privilegios' => Privilegio::all(),
         'rolMP' => $rolMP,
     ]);
-
-
 })->name('backoffice.dashboard');
 
 Route::get('/backoffice/proyectos', [projectController::class, 'index'])->name('proyectos.index');
