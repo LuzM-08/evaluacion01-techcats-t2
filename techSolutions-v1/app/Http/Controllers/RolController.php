@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserProfileModel;
-use App\Models\PrivilegeModel;
-use App\Models\RolModel;
-use App\Models\RolUserInfoPrivilegio;
+use App\Models\Mantenedor;
+use App\Models\Privilegio;
+use App\Models\Rol;
+use App\Models\RolMantenedorPrivilegio;
 use App\Models\User;
+use App\Models\UserProfileModel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +72,7 @@ class RolController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $datos = RolModel::all();
+        $datos = Rol::all();
         //prepara la lista para ser asignada a la propiedad
         $mantenedor = [
             "posicion" => 1,
@@ -90,7 +91,7 @@ class RolController extends Controller
         $privilegio = [
             'lista' => []
         ];
-        foreach (PrivilegeModel::all() as $registro) {
+        foreach (Privilegio::all() as $registro) {
             if ($registro->activo) {
                 array_push($this->properties['fields'][$mantenedor['posicion']]['listaPrivilegios'], [
                     'id' => $registro->id,
@@ -110,9 +111,9 @@ class RolController extends Controller
             $registro->user_id_create_nombre = User::findOrFail($registro->user_id_create)->nombre;
             $registro->user_id_last_update_nombre = User::findOrFail($registro->user_id_last_update)->nombre;
         }
-        $user->rol_nombre = RolModel::findOrFail($user->rol_id)->nombre;
+        $user->rol_nombre = Rol::findOrFail($user->rol_id)->nombre;
         //privilegios del Rol en Mantenedor y sus Privilegios
-        $allRolMantenedorPrivilegio = RolUserInfoPrivilegio::all()->where('rol_id', $user->rol_id);
+        $allRolMantenedorPrivilegio = RolMantenedorPrivilegio::all()->where('rol_id', $user->rol_id);
         $rolMP = [];
         foreach ($allRolMantenedorPrivilegio as $rmp) {
             $rolMP[$rmp->mantenedor_id][$rmp->privilegio_id] = $rmp->activo;
@@ -121,13 +122,13 @@ class RolController extends Controller
         return view($this->properties['view']['index'], [
             'user' => $user,
             'registros' => $datos,
-            'registrosMaM' => RolUserInfoPrivilegio::all(), //registros muchos a muchos
+            'registrosMaM' => RolMantenedorPrivilegio::all(), //registros muchos a muchos
             'action' => $this->properties['actions'],
             'titulo' => $this->properties['title'],
             'campos' => $this->properties['fields'],
             'mantenedor_id' => 5,
             'mantenedores' => UserProfileModel::all(),
-            'privilegios' => PrivilegeModel::all(),
+            'privilegios' => Privilegio::all(),
             'rolMP' => $rolMP,
         ]);
     }
@@ -141,13 +142,13 @@ class RolController extends Controller
 
         if ($_id === null) {
             // Si $_id es nulo, obtén todos los roles
-            $datos = RolModel::all();
+            $datos = Rol::all();
         } else {
             // Encuentra el rol por su ID
-            $datos = RolModel::findOrFail($_id);
+            $datos = Rol::findOrFail($_id);
 
             // Obtener los registros asociados en RolMantenedorPrivilegio
-            $datos->registrosMaM = RolUserInfoPrivilegio::where('rol_id', $_id)->get();
+            $datos->registrosMaM = RolMantenedorPrivilegio::where('rol_id', $_id)->get();
 
             // Obtener nombres de los usuarios que crearon y actualizaron el rol
             $datos->user_id_create_nombre = User::find($datos->user_id_create)->nombre ?? 'Desconocido';
@@ -166,7 +167,7 @@ class RolController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = RolModel::findOrFail($_id);
+        $registro = Rol::findOrFail($_id);
         $registro->user_id_create = $user->id;
         $registro->user_id_last_update = $user->id;
         $registro->activo = true;
@@ -184,7 +185,7 @@ class RolController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = RolModel::findOrFail($_id);
+        $registro = Rol::findOrFail($_id);
         $registro->user_id_last_update = $user->id;
         $registro->activo = false;
         try {
@@ -201,7 +202,7 @@ class RolController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = RolModel::findOrFail($_id);
+        $registro = Rol::findOrFail($_id);
         try {
             $registro->delete();
             return redirect()->route('roles.index')->with('success', "[id: $registro->id] [Registro: $registro->nombre] eliminado con éxito.");
@@ -228,7 +229,7 @@ class RolController extends Controller
 
         try {
             // Crear el nuevo rol
-            $rol = RolModel::create([
+            $rol = Rol::create([
                 'nombre' => $nombreRol,
                 'user_id_create' => $user->id,
                 'user_id_last_update' => $user->id,
@@ -237,14 +238,14 @@ class RolController extends Controller
 
             // Recorrer todos los mantenedores y privilegios
             $allMantenedores = UserProfileModel::all();
-            $allPrivilegios = PrivilegeModel::all();
+            $allPrivilegios = Privilegio::all();
 
             foreach ($allMantenedores as $mantenedor) {
                 foreach ($allPrivilegios as $privilegio) {
                     $activo = isset($privilegios[$mantenedor->id][$privilegio->id]);
                     try {
                         // Insertar el registro en la tabla `rol_mantenedor_privilegio`
-                        RolUserInfoPrivilegio::create([
+                        RolMantenedorPrivilegio::create([
                             'rol_id' => $rol->id,
                             'mantenedor_id' => $mantenedor->id,
                             'privilegio_id' => $privilegio->id,
@@ -277,7 +278,7 @@ class RolController extends Controller
         ], $this->mensajes);
 
         // Buscar el registro
-        $registro = RolModel::findOrFail($_id);
+        $registro = Rol::findOrFail($_id);
 
         $nombreRol = $_request->input('rol_nombre');
         $privilegios = $_request->input('privilegios', []);
@@ -294,7 +295,7 @@ class RolController extends Controller
 
             // Recorrer todos los mantenedores y privilegios
             $allMantenedores = UserProfileModel::all();
-            $allPrivilegios = PrivilegeModel::all();
+            $allPrivilegios = Privilegio::all();
 
             foreach ($allMantenedores as $mantenedor) {
                 foreach ($allPrivilegios as $privilegio) {
@@ -306,7 +307,7 @@ class RolController extends Controller
                     }
 
                     // Buscar o crear el registro en la tabla rol_mantenedor_privilegio
-                    $rolMantenedorPrivilegio = RolUserInfoPrivilegio::updateOrCreate(
+                    $rolMantenedorPrivilegio = RolMantenedorPrivilegio::updateOrCreate(
                         [
                             'rol_id' => $_id,
                             'mantenedor_id' => $mantenedor->id,

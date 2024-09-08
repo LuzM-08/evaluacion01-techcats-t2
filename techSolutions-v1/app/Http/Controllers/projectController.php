@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PrivilegeModel;
-use App\Models\ProyectoModel;
-use App\Models\RolModel;
-use App\Models\RolUserInfoPrivilegio;
+use App\Models\Mantenedor;
+use App\Models\Privilegio;
+use App\Models\Proyecto;
+use App\Models\Rol;
+use App\Models\RolMantenedorPrivilegio;
 use App\Models\User;
 use App\Models\UserProfileModel;
 use Exception;
@@ -78,7 +79,7 @@ class projectController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $datos = ProyectoModel::all();
+        $datos = Proyecto::all();
 
         //recupera datos del usuario
         foreach ($datos as $registro) {
@@ -86,9 +87,9 @@ class projectController extends Controller
             $registro->user_id_last_update_nombre = User::findOrFail($registro->user_id_last_update)->nombre;
         }
 
-        $user->rol_nombre = RolModel::findOrFail($user->rol_id)->nombre;
+        $user->rol_nombre = Rol::findOrFail($user->rol_id)->nombre;
         //privilegios del Rol en Mantenedor y sus Privilegios
-        $allRolMantenedorPrivilegio = RolUserInfoPrivilegio::all()->where('rol_id', $user->rol_id);
+        $allRolMantenedorPrivilegio = RolMantenedorPrivilegio::all()->where('rol_id', $user->rol_id);
         $rolMP = [];
         foreach ($allRolMantenedorPrivilegio as $rmp) {
             $rolMP[$rmp->mantenedor_id][$rmp->privilegio_id] = $rmp->activo;
@@ -101,7 +102,7 @@ class projectController extends Controller
             'campos' => $this->properties['fields'],
             'mantenedor_id' => 2,
             'mantenedores' => UserProfileModel::all(),
-            'privilegios' => PrivilegeModel::all(),
+            'privilegios' => Privilegio::all(),
             'rolMP' => $rolMP,
         ]);
     }
@@ -114,14 +115,14 @@ class projectController extends Controller
         }
         //quita la imagen
         if ($_id === null) {
-            $data = ProyectoModel::all();
+            $data = Proyecto::all();
             $data->each(function ($item) {
                 if ($item->imagen) {
                     $item->imagen = base64_encode($item->imagen);
                 }
             });
         } else {
-            $data = ProyectoModel::findOrFail($_id);
+            $data = Proyecto::findOrFail($_id);
             if ($data->imagen) {
                 $data->imagen = base64_encode($data->imagen);
             }
@@ -149,7 +150,7 @@ class projectController extends Controller
         $imageData = file_get_contents($image);
         try {
             // Insertar el registro en la base de datos
-            ProyectoModel::create([
+            Proyecto::create([
                 'nombre' => $_request->proyecto_nombre,
                 'descripcion' => $_request->proyecto_descripcion,
                 'imagen' => $imageData,
@@ -168,7 +169,7 @@ class projectController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = ProyectoModel::findOrFail($_id);
+        $registro = Proyecto::findOrFail($_id);
         $registro->user_id_last_update = $user->id;
         $registro->activo = true;
         try {
@@ -185,7 +186,7 @@ class projectController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $registro = ProyectoModel::findOrFail($_id);
+        $registro = Proyecto::findOrFail($_id);
         $registro->user_id_last_update = $user->id;
         $registro->activo = false;
         try {
@@ -202,7 +203,7 @@ class projectController extends Controller
         if ($user == NULL) {
             return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
         }
-        $proyecto = ProyectoModel::findOrFail($_id);
+        $proyecto = Proyecto::findOrFail($_id);
         $proyecto->delete();
         return redirect()->route('proyectos.index')->with('success', "[id: $proyecto->id] [Registro: $proyecto->nombre] eliminado con éxito.");
     }
@@ -221,7 +222,7 @@ class projectController extends Controller
         ], $this->mensajes);
 
         //busca el proyecto
-        $proyecto = ProyectoModel::findOrFail($_id);
+        $proyecto = Proyecto::findOrFail($_id);
 
         $datos = $_request->only('_token', 'proyecto_nombre', 'proyecto_logo', 'proyecto_descripcion');
 
@@ -260,67 +261,3 @@ class projectController extends Controller
         }
     }
 }
-
-/*
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\ProyectoModel;
-
-class projectController extends Controller
-{
-    public function new($_nuevo){
-        $nuevo = new ProyectoModel();
-    }
-
-    private $projects = [
-        ['id' => 1, 'nombre' => 'Proyecto X', 'fecha_inicio' => '2024-03-01', 'estado' => 'Finalizado', 'owner' => 'Mozart', 'costo' => '$5.000.000', 'createdBy' => 'Laura Figueroa'],
-        ['id' => 2, 'nombre' => 'Proyecto Y', 'fecha_inicio' => '2024-06-13', 'estado' => 'En curso', 'owner' => 'Dr. Simi', 'costo' => '$15.000.000', 'createdBy' => 'Laura Figueroa'],
-        ['id' => 3, 'nombre' => 'Proyecto Z', 'fecha_inicio' => '2024-08-25', 'estado' => 'Pendiente', 'owner' => 'Pepito Los Palotes', 'costo' => '$10.000.000', 'createdBy' => 'Laura Figueroa']
-    ];
-
-    public function index()
-    {
-        return view('obtenerProyectoView', ['projects' => $this->projects]);
-    }
-
-    public function get($_id){
-        if($_id == NULL) {
-            return view('obtenerProyectoView', ['projects' => $this->projects]);
-        } else {
-            return view('obtenerProyectoByIDView');
-        }
-    }
-
-}
-
-class addProject extends Controller
-{
-    public function add(){
-        return view('agregarProyectoView');
-    }
-}
-
-class deleteProject extends Controller
-{
-    public function delete() {
-        return view('eliminarProyectoView');
-    }
-}
-
-class updateProject extends Controller
-{
-    public function add()
-    {
-        return view('actualizarProyectoView');
-    }
-}
-
-class viewUF extends Controller
-{
-    public function add()
-    {
-        return view('u-fcomponent.blade.php');
-    }
-}
-*/

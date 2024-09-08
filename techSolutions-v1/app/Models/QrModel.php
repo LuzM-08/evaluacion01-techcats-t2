@@ -9,8 +9,10 @@ class QrModel extends Model
 {
     use HasFactory;
 
+    // Definir la tabla asociada si el nombre de la tabla no sigue la convención de Laravel
     protected $table = 'qrs';
 
+    // Campos que pueden ser asignados en masa
     protected $fillable = [
         'user_id_create',
         'user_id_last_update',
@@ -20,14 +22,18 @@ class QrModel extends Model
         'activo',
     ];
 
+    // Relaciones con otros modelos
+
+    // Relación con el modelo User
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id_create');
     }
 
+    // Relación con el modelo Proyecto
     public function proyecto()
     {
-        return $this->belongsTo(ProyectoModel::class, 'proyecto_id');
+        return $this->belongsTo(Proyecto::class, 'proyecto_id');
     }
 
 }

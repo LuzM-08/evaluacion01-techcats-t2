@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PrivilegeModel;
-use App\Models\ProyectoModel;
+use App\Models\Mantenedor;
+use App\Models\Privilegio;
+use App\Models\Proyecto;
+use App\Models\QR;
 use App\Models\QrModel;
-use App\Models\RolModel;
-use App\Models\RolUserInfoPrivilegio;
+use App\Models\Rol;
+use App\Models\RolMantenedorPrivilegio;
 use App\Models\User;
 use App\Models\UserProfileModel;
 use Exception;
@@ -119,7 +121,7 @@ class QrController extends Controller
         //prepara la lista de proyectos para ser asignada a la propiedad
         $posicionProyectos = 2;
         $listaProyectos = [];
-        foreach (ProyectoModel::all() as $p) {
+        foreach (Proyecto::all() as $p) {
             if ($p->activo) {
                 array_push($listaProyectos, [
                     'id' => $p->id,
@@ -131,11 +133,11 @@ class QrController extends Controller
 
         foreach ($datos as $registro) {
             $registro->user_nombre = User::findOrFail($registro->user_id_create)->nombre;
-            $registro->proyecto_nombre = ProyectoModel::findOrFail($registro->proyecto_id)->nombre;
+            $registro->proyecto_nombre = Proyecto::findOrFail($registro->proyecto_id)->nombre;
         }
-        $user->rol_nombre = RolModel::findOrFail($user->rol_id)->nombre;
+        $user->rol_nombre = Rol::findOrFail($user->rol_id)->nombre;
         //privilegios del Rol en Mantenedor y sus Privilegios
-        $allRolMantenedorPrivilegio = RolUserInfoPrivilegio::all()->where('rol_id', $user->rol_id);
+        $allRolMantenedorPrivilegio = RolMantenedorPrivilegio::all()->where('rol_id', $user->rol_id);
         $rolMP = [];
         foreach ($allRolMantenedorPrivilegio as $rmp) {
             $rolMP[$rmp->mantenedor_id][$rmp->privilegio_id] = $rmp->activo;
@@ -148,7 +150,7 @@ class QrController extends Controller
             'campos' => $this->properties['fields'],
             'mantenedor_id' => 6,
             'mantenedores' => UserProfileModel::all(),
-            'privilegios' => PrivilegeModel::all(),
+            'privilegios' => Privilegio::all(),
             'rolMP' => $rolMP,
         ]);
     }
@@ -194,7 +196,7 @@ class QrController extends Controller
             $datos = QrModel::findOrFail($_id);
             // Preparar los datos adicionales
             $datos->user_nombre = User::findOrFail($datos->user_id_create)->nombre;
-            $datos->proyecto_nombre = ProyectoModel::findOrFail($datos->proyecto_id)->nombre;
+            $datos->proyecto_nombre = Proyecto::findOrFail($datos->proyecto_id)->nombre;
         }
         return response()->json([
             'data' => $datos
@@ -300,6 +302,15 @@ class QrController extends Controller
 
     public function handleRedireccion(Request $request)
     {
+        // $id = $request->query('id'); // Captura el parámetro 'id' de la URL
+        // $qr = QR::all()->first(function ($registro) use ($id) {
+        //     // echo '<p>' . $registro->id . ' - ' . md5($registro->id) . '</p>';
+        //     return md5($registro->id) === $id;
+        // });
+        // echo '<hr>';
+        // echo 'handle: ' . $id;
+        // echo '<hr>';
+        // print_r($qr);
         try {
             $id = $request->query('id'); // Captura el parámetro 'id' de la URL
             // Busca el QR que corresponde al id recibido (hash md5 del ID)

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PrivilegeModel;
-use App\Models\RolModel;
-use App\Models\RolUserInfoPrivilegio;
+use App\Models\Mantenedor;
+use App\Models\Privilegio;
+use App\Models\Rol;
+use App\Models\RolMantenedorPrivilegio;
 use App\Models\User;
 use App\Models\UserProfileModel;
 use Exception;
@@ -83,9 +84,9 @@ class UserInfoController extends Controller
             $registro->user_id_create_nombre = User::findOrFail($registro->user_id_create)->nombre;
             $registro->user_id_last_update_nombre = User::findOrFail($registro->user_id_last_update)->nombre;
         }
-        $user->rol_nombre = RolModel::findOrFail($user->rol_id)->nombre;
+        $user->rol_nombre = Rol::findOrFail($user->rol_id)->nombre;
         //privilegios del Rol en Mantenedor y sus Privilegios
-        $allRolMantenedorPrivilegio = RolUserInfoPrivilegio::all()->where('rol_id', $user->rol_id);
+        $allRolMantenedorPrivilegio = RolMantenedorPrivilegio::all()->where('rol_id', $user->rol_id);
         $rolMP = [];
         foreach ($allRolMantenedorPrivilegio as $rmp) {
             $rolMP[$rmp->mantenedor_id][$rmp->privilegio_id] = $rmp->activo;
@@ -98,7 +99,7 @@ class UserInfoController extends Controller
             'campos' => $this->properties['fields'],
             'mantenedor_id' => 3,
             'mantenedores' => UserProfileModel::all(),
-            'privilegios' => PrivilegeModel::all(),
+            'privilegios' => Privilegio::all(),
             'rolMP' => $rolMP,
         ]);
     }
