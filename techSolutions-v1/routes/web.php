@@ -1,29 +1,82 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\projectController;
+use App\Http\Controllers\UFController;
+use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\PrivilegeController;
-use App\Http\Controllers\projectController;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
-use App\Models\Privilegio;
-use App\Models\Proyecto;
-use App\Models\Rol;
-use App\Models\RolMantenedorPrivilegio;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Models\PrivilegeModel;
+use App\Models\RolModel;
+use App\Models\RolUserInfoPrivilegio;
+use App\Models\ProyectoModel;
 use App\Models\UserProfileModel;
 
 Route::get('/', function () {
-    return view('landing.index', [
-        'proyectos' => Proyecto::all()->where('activo', true)
-    ]);
+    return view('usuario.login');
+});
+/* return view('landing.index');
 })->name('raiz');
+ */
 
-Route::get('/login', [UserController::class, 'formularioLogin'])->name('usuario.login');
-Route::post('/login', [UserController::class, 'login'])->name('usuario.validar');
+Route::get('/all-projects', [ProjectController::class, 'index']);
 
-Route::post('/logout', [UserController::class, 'logout'])->name('usuario.logout');
+Route::get('/all-projects/{_id}', [ProjectController::class, 'get']);
+
+Route::get('/add-project', [ProjectController::class, 'addProject']);
+Route::post('/add-project', [ProjectController::class, 'addProject']);
+
+Route::get('/update-project', [ProjectController::class, 'updateProject']);
+Route::put('/update-project', [ProjectController::class, 'updateProject']);
+
+Route::get('/delete-project', [ProjectController::class, 'deleteProject']);
+Route::delete('/delete-project', [ProjectController::class, 'deleteProject']);
+
+Route::get('/view-UF', [ProjectController::class, 'viewUF']);
+
+/* Rutas evaluación 2 */
+Route::get('/login', [LoginController::class, 'formularioLogin'])->name('usuario.login');
+Route::post('/login', [LoginController::class, 'login'])->name('usuario.validar');
+
+Route::get('/users/register', [LoginController::class, 'formularioUsuario'])->name('usuario.registrar');
+Route::post('/users/register', [LoginController::class, 'registrar'])->name('usuario.registrar');
+
+/* Route::get('/backoffice', function(){
+    $user = Auth::user();
+    if ($user == NULL) {
+        return redirect()-> route('usuario.login')->withErrors(['message' => 'No existe una sesion activa']);
+    } return view ('backoffice.dashboard', ['user' => $user]);
+}) ->name('backoffice.dashboard');  */
+
+Route::get('/backoffice', function () {
+    $token = session('jwt_token');
+
+    if (!$token) {
+        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa o el token es inválido.']);
+    }
+
+    $user = Auth::user();
+    if ($user == NULL) {
+        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesion activa']);
+    }
+
+    try {
+        $user = JWTAuth::setToken($token)->authenticate();
+        return view('backoffice.dashboard', ['user' => $user]);
+    } catch (Exception $e) {
+        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa o el token es inválido.']);
+    }
+})->name('backoffice.dashboard');
+
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('usuario.logout');
+
+/* Rutas Evaluación 3*/ 
 
 //sin backoffice
 Route::get('/users/register', [UserController::class, 'formularioNuevo'])->name('usuario.registrar');
@@ -42,10 +95,10 @@ Route::get('/backoffice', function () {
     if ($user == NULL) {
         return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa.']);
     }
-    $proyectosConQRs = Proyecto::with('qrs')->get();
-    $user->rol_nombre = Rol::findOrFail($user->rol_id)->nombre;
+    $proyectosConQRs = ProyectoModel::with('qrs')->get();
+    $user->rol_nombre = RolModel::findOrFail($user->rol_id)->nombre;
     //privilegios del Rol en Mantenedor y sus Privilegios
-    $allRolMantenedorPrivilegio = RolMantenedorPrivilegio::all()->where('rol_id', $user->rol_id);
+    $allRolMantenedorPrivilegio = RolUserInfoPrivilegio::all()->where('rol_id', $user->rol_id);
     $rolMP = [];
     foreach ($allRolMantenedorPrivilegio as $rmp) {
         $rolMP[$rmp->mantenedor_id][$rmp->privilegio_id] = $rmp->activo;
@@ -55,7 +108,7 @@ Route::get('/backoffice', function () {
         'user' => $user,
         'proyectos' => $proyectosConQRs,
         'mantenedores' => UserProfileModel::all(),
-        'privilegios' => Privilegio::all(),
+        'privilegios' => PrivilegeModel::all(),
         'rolMP' => $rolMP,
     ]);
 })->name('backoffice.dashboard');
@@ -104,36 +157,3 @@ Route::post('/backoffice/qrs/delete/{_id}', [QrController::class, 'delete'])->na
 Route::get('/redireccion', [QrController::class, 'handleRedireccion'])->name('redireccion');
 
 
-/* Rutas evaluación 2 */
-/* Route::get('/login', [LoginController::class, 'formularioLogin'])->name('usuario.login');
-Route::post('/login', [LoginController::class, 'login'])->name('usuario.validar');
-
-Route::get('/users/register', [LoginController::class, 'formularioUsuario'])->name('usuario.registrar');
-Route::post('/users/register', [LoginController::class, 'registrar'])->name('usuario.registrar'); */
-
-/* Route::get('/backoffice', function(){
-    $user = Auth::user();
-    if ($user == NULL) {
-        return redirect()-> route('usuario.login')->withErrors(['message' => 'No existe una sesion activa']);
-    } return view ('backoffice.dashboard', ['user' => $user]);
-}) ->name('backoffice.dashboard');  */
-
-/* Route::get('/backoffice', function () {
-    $token = session('jwt_token');
-
-    if (!$token) {
-        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa o el token es inválido.']);
-    }
-
-    $user = Auth::user();
-    if ($user == NULL) {
-        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesion activa']);
-    }
-
-    try {
-        $user = JWTAuth::setToken($token)->authenticate();
-        return view('backoffice.dashboard', ['user' => $user]);
-    } catch (Exception $e) {
-        return redirect()->route('usuario.login')->withErrors(['message' => 'No existe una sesión activa o el token es inválido.']);
-    }
-})->name('backoffice.dashboard'); */

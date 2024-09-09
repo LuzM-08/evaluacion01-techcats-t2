@@ -157,7 +157,7 @@ class projectController extends Controller
                 'user_id_create' => $user->id,
                 'user_id_last_update' => $user->id,
             ]);
-            return redirect()->back()->with('201','Projecto creado con éxito');
+            return redirect()->back()->with('success','Proyecto creado con éxito')-> setStatusCode(201);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Error al crear el proyecto: ' . $e->getMessage());
         }
