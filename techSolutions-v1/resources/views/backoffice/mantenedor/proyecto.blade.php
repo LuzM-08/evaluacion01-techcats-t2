@@ -57,6 +57,18 @@
         <div class="row mb-2">
             <div class="col-12">
                 <!-- Mensajes de Éxito -->
+                 @if (session('201'))
+                 <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            launchToastMessage({
+                                class: 'bg-success',
+                                title: '<i class="fas fa-check"></i>',
+                                subtitle: 'Proyecto añadido exitosamente',
+                                message: '{{ session('201') }}'
+                            });
+                        });
+                    </script>
+                 @endif
                 @if (session('success'))
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {

@@ -217,7 +217,7 @@ class UserController extends Controller
         //código de la semana o día
         date_default_timezone_set('UTC');
 
-        if ($datos['dayCode'] != date("d") . '-abcD') {
+        if ($datos['dayCode'] != date("d")) {
             return back()->withErrors(['message' => 'El código del día no corresponde.']);
         }
 

@@ -10,7 +10,28 @@
 
     <link rel="stylesheet" href="assets/css/minified.css">
 
-    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/imgs/favicon.png" type="image/x-icon">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- icheck bootstrap -->
+    {{-- <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <style>
+        .alert-dismissible .btn-close {
+            padding: 1rem 1rem;
+        }
+
+        .login-box,
+        .register-box {
+            width: 450px;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,7 +40,7 @@
             <div class="header-wrapper">
                 <div class="logo">
                     <a href="./">
-                        <img src="assets/images/logo/logo2.png" alt="logo">
+                        <img src="..\assets\imgs\logo\logo2.png" alt="logo">
                     </a>
                 </div>
                 <div class="header-bar d-lg-none">
@@ -37,7 +58,7 @@
         </div>
     </header>
     <section class="banner-12 pos-rel oh">
-        <div class="extra-bg bg_img" data-background="assets/images/banner/banner-12-bg.jpg"></div>
+        <div class="extra-bg bg_img" data-background="..\assets\imgs\banner\banner-12.png"></div>
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -62,7 +83,7 @@
                 </div>
                 <div class="col-lg-5 d-lg-block d-none">
                     <div class="banner-12-thumb">
-                        <img src="assets/images/banner/unnamed.png" alt="banner">
+                        <img src="..\assets\imgs\banner\unnamed.png" alt="banner">
                     </div>
                 </div>
 
@@ -78,7 +99,7 @@
                 <div class="col-lg-6">
                     <div class="app-video-thumb">
                         <div class="rtl">
-                            <img src="assets/images/feature/ex-video.png" alt="feature">
+                            <img src="..\assets\imgs\feature\ex-video.png" alt="feature">
                         </div>
                         <a class="video-button popup" href="https://www.youtube.com/watch?v=ObZwFExwzOo">
                             <i class="flaticon-play"></i>
@@ -106,7 +127,7 @@
                 <div class="col-lg-6">
                     <div class="faq-header">
                         <div class="cate">
-                            <img src="assets/images/cate.png" alt="cate">
+                            <img src="../assets/imgs/cate.png" alt="cate">
                         </div>
                         <h2 class="title">¿Proyecto Qr?</h2>
                     </div>
@@ -162,12 +183,12 @@
             </div>
         </div>
     </section>
-    <footer class="footer-section bg_img" data-background="assets/images/footer/footer-bg.jpg">
+    <footer class="footer-section bg_img" data-background="../assets/imgs/footer/footer-bg.jpg">
         <div class="container">
             <div class="footer-top padding-top padding-bottom">
                 <div class="logo">
                     <a href="./">
-                        <img src="assets/images/logo/footer-logo.png" alt="logo">
+                        <img src="../assets/imgs/logo/footer-logo.png" alt="logo">
                     </a>
                 </div>
 
@@ -188,13 +209,13 @@
             </div>
             <div class="copyright">
                 <p>
-                    CMMEdu | Universidad de Chile <a target="_blank" href="https://cmmedu.uchile.cl/">www.cmmedu.cl</a>
+                    IPSS - Instituto Profesional San Sebastian <a target="_blank" href="https://ipss.cl/">www.ipss.cl</a>
                 </p>
             </div>
         </div>
     </footer>
-    <script src="assets/js/minified.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/minified.js"></script>
+    <script src="../assets/js/main.js"></script>
 </body>
 
 </html>
